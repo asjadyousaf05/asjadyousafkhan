@@ -64,7 +64,9 @@ async function getCollection() {
   if (cachedCollection) return cachedCollection;
 
   if (!process.env.MONGODB_URI) {
-    throw new Error('Missing MONGODB_URI in environment');
+    const error = new Error('Missing MONGODB_URI in environment');
+    error.code = 'MISSING_MONGODB_URI';
+    throw error;
   }
 
   if (!cachedClient) {
@@ -195,9 +197,17 @@ export default async function handler(req, res) {
       createdAt: entry.createdAt,
     });
   } catch (error) {
-    console.error('Error handling /api/messages:', error);
-    return res
-      .status(500)
-      .json({ error: 'Failed to process request. Please try again.' });
+    const errorCode = error?.code || error?.name || 'UNKNOWN_ERROR';
+    const errorMessage = error?.message || 'Unknown failure';
+
+    console.error('Error handling /api/messages:', {
+      code: errorCode,
+      message: errorMessage,
+    });
+
+    return res.status(500).json({
+      error: 'Failed to process request. Please try again.',
+      errorCode,
+    });
   }
 }
