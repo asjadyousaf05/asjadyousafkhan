@@ -5,6 +5,8 @@ import nodemailer from 'nodemailer';
 let cachedClient;
 let cachedCollection;
 let cachedMailer;
+let cachedDbName;
+let cachedCollectionName;
 
 function getAllowedOrigins() {
   return (process.env.ALLOWED_ORIGINS || '')
@@ -61,12 +63,31 @@ function setCors(req, res) {
 }
 
 async function getCollection() {
-  if (cachedCollection) return cachedCollection;
+  const dbName = process.env.MONGODB_DB_NAME || 'portfolio';
+  const collectionName = process.env.MONGODB_COLLECTION || 'incomming';
+
+  if (
+    cachedCollection &&
+    cachedDbName === dbName &&
+    cachedCollectionName === collectionName
+  ) {
+    return cachedCollection;
+  }
 
   if (!process.env.MONGODB_URI) {
     const error = new Error('Missing MONGODB_URI in environment');
     error.code = 'MISSING_MONGODB_URI';
     throw error;
+  }
+
+  if (cachedClient) {
+    try {
+      await cachedClient.db('admin').command({ ping: 1 });
+    } catch (err) {
+      console.warn('Mongo ping failed; reconnecting:', err.message);
+      cachedClient = undefined;
+      cachedCollection = undefined;
+    }
   }
 
   if (!cachedClient) {
@@ -80,10 +101,10 @@ async function getCollection() {
     await cachedClient.connect();
   }
 
-  const databaseName = process.env.MONGODB_DB_NAME || 'portfolio';
-  const collectionName = process.env.MONGODB_COLLECTION || 'incomming';
-  const db = cachedClient.db(databaseName);
+  const db = cachedClient.db(dbName);
   cachedCollection = db.collection(collectionName);
+  cachedDbName = dbName;
+  cachedCollectionName = collectionName;
   await cachedCollection.createIndex({ createdAt: -1 });
   return cachedCollection;
 }
