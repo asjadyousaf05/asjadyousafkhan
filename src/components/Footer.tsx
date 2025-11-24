@@ -1,5 +1,5 @@
 import React from 'react';
-import { Heart, ArrowUp } from 'lucide-react';
+import { ArrowUp } from 'lucide-react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const Footer: React.FC = () => {

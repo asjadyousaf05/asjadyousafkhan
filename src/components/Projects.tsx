@@ -10,22 +10,14 @@ const Projects: React.FC = () => {
   const [filter, setFilter] = React.useState("All");
 
   const projects = [
-    {
-      title: "Faculty House Allocation System",
-      description: "Desktop application with role-based housing management system for faculty members, featuring secure authentication and database management.",
-      techStack: ["Java", "MySQL", "Swing"],
-      category: "Desktop Application",
-      githubUrl: "#",
-      demoUrl: "#",
-      image: "https://images.pexels.com/photos/1181671/pexels-photo-1181671.jpeg?auto=compress&cs=tinysrgb&w=850&h=400&fit=crop"
-    },
+   
     {
       title: "Portfolio Website",
       description: "Responsive personal portfolio website showcasing projects and skills, deployed on GitHub Pages with modern design principles.",
       techStack: ["HTML", "CSS", "JavaScript"],
       category: "Web Development",
-      githubUrl: "#",
-      demoUrl: "#",
+      githubUrl: "https://github.com/asjadyousaf05/asjadyousafkhan",
+      demoUrl: "asjadyousaf.online",
       image: "https://images.pexels.com/photos/196644/pexels-photo-196644.jpeg?auto=compress&cs=tinysrgb&w=850&h=400&fit=crop"
     },
     {
@@ -33,8 +25,8 @@ const Projects: React.FC = () => {
       description: "Cloud-based machine learning application for predicting diseases based on symptoms using advanced ML algorithms.",
       techStack: ["Python", "Scikit-learn", "Flask", "Streamlit"],
       category: "Machine Learning",
-      githubUrl: "#",
-      demoUrl: "#",
+      githubUrl: "https://github.com/asjadyousaf05/Disease_Predictor_ML_Project",
+      demoUrl: "https://diseasepredictormlproject-gd2sfquwaeamoxsuc4gpwn.streamlit.app/",
       image: "https://images.pexels.com/photos/4173251/pexels-photo-4173251.jpeg?auto=compress&cs=tinysrgb&w=850&h=400&fit=crop"
     },
     {
@@ -42,7 +34,7 @@ const Projects: React.FC = () => {
       description: "Personalized movie recommendation system using collaborative filtering and content-based approaches.",
       techStack: ["Python", "Pandas", "NumPy", "Scikit-learn"],
       category: "Machine Learning",
-      githubUrl: "#",
+      githubUrl: "https://github.com/asjadyousaf05/Machine-Learning-Projects/tree/main/Day%2014-%20Movie%20Reccomendation%20System",
       demoUrl: "#",
       image: "https://images.pexels.com/photos/1200450/pexels-photo-1200450.jpeg?auto=compress&cs=tinysrgb&w=850&h=400&fit=crop"
     },
@@ -69,7 +61,7 @@ const Projects: React.FC = () => {
       description: "Real-time disaster tweet detection system for emergency response using NLP techniques.",
       techStack: ["Python", "TensorFlow", "Twitter API"],
       category: "Natural Language Processing",
-      githubUrl: "#",
+      githubUrl: "https://github.com/asjadyousaf05/Machine-Learning-Projects",
       demoUrl: "#",
       image: "https://images.pexels.com/photos/73833/hurricane-earth-satellite-tracking-73833.jpeg?auto=compress&cs=tinysrgb&w=850&h=400&fit=crop"
     },
@@ -78,7 +70,7 @@ const Projects: React.FC = () => {
       description: "Optimized SVM classifiers for health, finance, and text classification with high accuracy.",
       techStack: ["Python", "Scikit-learn", "NumPy", "Matplotlib"],
       category: "Machine Learning",
-      githubUrl: "#",
+      githubUrl: "https://github.com/asjadyousaf05/Machine-Learning-Projects",
       demoUrl: "#",
       image: "https://images.pexels.com/photos/159888/pexels-photo-159888.jpeg?auto=compress&cs=tinysrgb&w=850&h=400&fit=crop"
     },
@@ -87,10 +79,30 @@ const Projects: React.FC = () => {
       description: "Offline ML app for solving math problems from text/images with explanations.",
       techStack: ["Python", "TensorFlow", "OpenCV"],
       category: "Artificial Intelligence",
-      githubUrl: "#",
+      githubUrl: "https://github.com/asjadyousaf05/Machine-Learning-Projects",
       demoUrl: "#",
       image: "https://images.pexels.com/photos/3729557/pexels-photo-3729557.jpeg?auto=compress&cs=tinysrgb&w=850&h=400&fit=crop"
-    }
+    },
+    {
+  title: "AI Plagiarism Checker",
+  description: "An offline/online ML-powered plagiarism detection tool that compares text against multiple sources and generates similarity reports.",
+  techStack: ["Python", "NLP", "Transformers", "Scikit-learn"],
+  category: "Natural Language Processing",
+  githubUrl: "https://github.com/asjadyousaf05/Plagiarism-Checker",
+  demoUrl: "#",
+  image: "https://images.pexels.com/photos/4195407/pexels-photo-4195407.jpeg?auto=compress&cs=tinysrgb&w=850&h=400&fit=crop"
+},
+{
+  title: "AI Recipe Bot",
+  description: "A smart AI chatbot that generates recipes from ingredients, suggests meals, and provides step-by-step cooking instructions.",
+  techStack: ["Python", "NLP", "Tf-Idf", "Flask"],
+  category: "Natural Language Processing",
+  githubUrl: "https://github.com/asjadyousaf05/Recipes-ChatBot",
+  demoUrl: "https://intent-recipe-chatbot.streamlit.app/",
+  image: "https://images.pexels.com/photos/1640777/pexels-photo-1640777.jpeg?auto=compress&cs=tinysrgb&w=850&h=400&fit=crop"
+}
+
+
   ];
 
   const categories = ["All", ...new Set(projects.map(p => p.category))];

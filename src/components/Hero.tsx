@@ -2,6 +2,7 @@ import React from 'react';
 import { Github, Linkedin, Download, Mail } from 'lucide-react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import MyCV from './asjad_yousaf_khan.pdf'; // import your PDF
+import profileImage from '../profile.jpg';
 
 const Hero: React.FC = () => {
   const [heroRef, isHeroVisible] = useScrollAnimation(0.2);
@@ -17,8 +18,13 @@ const Hero: React.FC = () => {
       <div className="max-w-4xl mx-auto text-center">
         {}
         <div className={`mb-8 transition-all duration-1000 ${isHeroVisible ? 'opacity-100 translate-y-0 scale-100' : 'opacity-0 translate-y-8 scale-95'}`}>
-          <div className="w-32 h-32 mx-auto mb-6 bg-gradient-to-r from-blue-500 to-purple-600 rounded-full flex items-center justify-center text-white text-4xl font-bold">
-            AYK
+          <div className="w-36 h-36 mx-auto mb-6 rounded-full ring-4 ring-blue-500/20 shadow-lg overflow-hidden">
+            <img
+              src={profileImage}
+              alt="Asjad Yousaf Khan"
+              className="w-full h-full object-cover"
+              loading="eager"
+            />
           </div>
         </div>
 

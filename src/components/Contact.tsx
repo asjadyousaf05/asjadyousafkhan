@@ -1,6 +1,38 @@
 import React, { useState } from 'react';
-import { Mail, Phone, Linkedin, Github, MapPin, Send } from 'lucide-react';
+import {
+  Mail,
+  Phone,
+  Linkedin,
+  Github,
+  MapPin,
+  Send,
+  Loader2,
+} from 'lucide-react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+
+const API_BASE_URL = (() => {
+  const envUrl = import.meta.env.VITE_API_BASE_URL?.trim();
+  const isLocalhost = ['localhost', '127.0.0.1', '::1'].includes(
+    window.location.hostname,
+  );
+
+  if (envUrl) {
+    const envIsLocal =
+      envUrl.includes('localhost') || envUrl.includes('127.0.0.1');
+
+    // Avoid baked-in localhost URLs when the site is running on a deployed domain.
+    if (!isLocalhost && envIsLocal) {
+      return window.location.origin;
+    }
+
+    return envUrl.replace(/\/+$/, '');
+  }
+
+  return (isLocalhost ? 'http://localhost:5174' : window.location.origin).replace(
+    /\/+$/,
+    '',
+  );
+})();
 
 const Contact: React.FC = () => {
   const [titleRef, isTitleVisible] = useScrollAnimation(0.2);
@@ -12,6 +44,8 @@ const Contact: React.FC = () => {
     email: '',
     message: ''
   });
+  const [formStatus, setFormStatus] = useState<'idle' | 'sending' | 'success' | 'error'>('idle');
+  const [formFeedback, setFormFeedback] = useState('');
 
   const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>) => {
     setFormData({
@@ -20,12 +54,32 @@ const Contact: React.FC = () => {
     });
   };
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    // Handle form submission here
-    console.log('Form submitted:', formData);
-    // Reset form
-    setFormData({ name: '', email: '', message: '' });
+    setFormStatus('sending');
+    setFormFeedback('Sending your message...');
+
+    try {
+      const response = await fetch(`${API_BASE_URL}/api/messages`, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(formData),
+      });
+      const data = await response.json();
+
+      if (!response.ok) {
+        throw new Error(data?.error || 'Failed to send your message.');
+      }
+
+      setFormStatus('success');
+      setFormFeedback('Thanks for reaching out! I will get back to you soon.');
+      setFormData({ name: '', email: '', message: '' });
+    } catch (error) {
+      setFormStatus('error');
+      setFormFeedback(
+        error instanceof Error ? error.message : 'Something went wrong.',
+      );
+    }
   };
 
   const contactInfo = [
@@ -197,13 +251,35 @@ const Contact: React.FC = () => {
                     placeholder="Enter your message"
                   />
                 </div>
-                
+
+                {formStatus !== 'idle' && (
+                  <div
+                    className={`rounded-lg border px-4 py-3 text-sm ${
+                      formStatus === 'success'
+                        ? 'border-green-300 bg-green-50 text-green-800 dark:border-green-700/50 dark:bg-green-900/30 dark:text-green-100'
+                        : formStatus === 'error'
+                          ? 'border-red-300 bg-red-50 text-red-800 dark:border-red-700/50 dark:bg-red-900/30 dark:text-red-100'
+                          : 'border-blue-300 bg-blue-50 text-blue-800 dark:border-blue-700/50 dark:bg-blue-900/30 dark:text-blue-100'
+                    }`}
+                    aria-live="polite"
+                  >
+                    {formFeedback}
+                  </div>
+                )}
+
                 <button
                   type="submit"
-                  className="w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-1"
+                  disabled={formStatus === 'sending'}
+                  className={`w-full bg-blue-600 text-white py-3 px-6 rounded-lg hover:bg-blue-700 transition-colors duration-200 flex items-center justify-center font-medium shadow-lg hover:shadow-xl transform hover:-translate-y-1 ${
+                    formStatus === 'sending' ? 'opacity-75 cursor-not-allowed' : ''
+                  }`}
                 >
-                  <Send className="w-5 h-5 mr-2" />
-                  Send Message
+                  {formStatus === 'sending' ? (
+                    <Loader2 className="w-5 h-5 mr-2 animate-spin" />
+                  ) : (
+                    <Send className="w-5 h-5 mr-2" />
+                  )}
+                  {formStatus === 'sending' ? 'Sending...' : 'Send Message'}
                 </button>
               </form>
             </div>

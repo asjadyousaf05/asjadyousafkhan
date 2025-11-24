@@ -14,13 +14,14 @@ export const useScrollAnimation = (threshold = 0.1) => {
       { threshold }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    const element = ref.current;
+    if (element) {
+      observer.observe(element);
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (element) {
+        observer.unobserve(element);
       }
     };
   }, [threshold]);
@@ -51,13 +52,14 @@ export const useStaggeredAnimation = (itemCount: number, delay = 100) => {
       { threshold: 0.1 }
     );
 
-    if (ref.current) {
-      observer.observe(ref.current);
+    const element = ref.current;
+    if (element) {
+      observer.observe(element);
     }
 
     return () => {
-      if (ref.current) {
-        observer.unobserve(ref.current);
+      if (element) {
+        observer.unobserve(element);
       }
     };
   }, [itemCount, delay]);
