@@ -6,8 +6,9 @@ ALLOWED_ORIGINS=http://localhost:5173,https://asjadyousaf.online,https://www.asj
 
 # Used by the frontend to reach the API
 VITE_API_BASE_URL=http://localhost:5174
-# For production builds, override the URL above with your deployed API URL
-# (for example: https://your-api-host.example.com)
+# In production you can leave this unset to default to the current site origin
+# (recommended so www/non-www domains avoid redirects), or override with your API host
+# e.g. https://www.asjadyousaf.online
 
 # Email notifications (optional, uses Gmail + app password)
 EMAIL_USER=yourgmail@gmail.com

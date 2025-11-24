@@ -40,7 +40,7 @@ API endpoints will be available at your site domain (e.g., https://asjadyousaf.o
 ## Deploy the frontend (Vercel)
 - Build command: `npm run build`
 - Output: `dist`
-- You can leave `VITE_API_BASE_URL` unset in production; the client falls back to the current origin (`/api/...`). For local dev, keep `VITE_API_BASE_URL=http://localhost:5174` in `.env`.
+- In production leave `VITE_API_BASE_URL` unset so the client uses the current origin (handles `www`/apex without redirects). For local dev, keep `VITE_API_BASE_URL=http://localhost:5174` in `.env`.
 
 ## Custom domain (Vercel)
 - Add `asjadyousaf.online` and `www.asjadyousaf.online` in Vercel Domains.

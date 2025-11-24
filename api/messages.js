@@ -10,16 +10,49 @@ function getAllowedOrigins() {
   return (process.env.ALLOWED_ORIGINS || '')
     .split(',')
     .map((o) => o.trim())
-    .filter(Boolean);
+    .filter(Boolean)
+    .map((origin) => origin.replace(/\/+$/, ''));
 }
 
-function setCors(res, origin) {
+function normalizeHost(host = '') {
+  return host.replace(/^www\./, '');
+}
+
+function resolveCorsOrigin(req) {
   const allowedOrigins = getAllowedOrigins();
-  if (allowedOrigins.length === 0 || allowedOrigins.includes(origin)) {
-    res.setHeader('Access-Control-Allow-Origin', origin || '*');
-  } else {
-    res.setHeader('Access-Control-Allow-Origin', allowedOrigins[0]);
+  const requestOriginHeader = req.headers.origin?.trim();
+
+  const parseOrigin = (value) => {
+    try {
+      const url = new URL(value);
+      return { origin: url.origin, host: normalizeHost(url.hostname) };
+    } catch {
+      return { origin: value?.replace(/\/+$/, ''), host: '' };
+    }
+  };
+
+  const { origin: requestOrigin, host: requestHost } = parseOrigin(
+    requestOriginHeader,
+  );
+  const apiHost = normalizeHost(req.headers.host || '');
+
+  if (
+    requestOrigin &&
+    (allowedOrigins.length === 0 || allowedOrigins.includes(requestOrigin))
+  ) {
+    return requestOrigin;
   }
+
+  if (requestOrigin && requestHost && apiHost && requestHost === apiHost) {
+    return requestOrigin;
+  }
+
+  return allowedOrigins[0] || '*';
+}
+
+function setCors(req, res) {
+  res.setHeader('Access-Control-Allow-Origin', resolveCorsOrigin(req));
+  res.setHeader('Vary', 'Origin');
   res.setHeader(
     'Access-Control-Allow-Headers',
     'Content-Type, Authorization, X-Requested-With',
@@ -112,8 +145,7 @@ ${entry.message}`;
 }
 
 export default async function handler(req, res) {
-  const origin = req.headers.origin || '*';
-  setCors(res, origin);
+  setCors(req, res);
 
   if (req.method === 'OPTIONS') {
     return res.status(200).end();

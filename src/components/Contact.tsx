@@ -11,28 +11,35 @@ import {
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 
 const API_BASE_URL = (() => {
-  const envUrl = import.meta.env.VITE_API_BASE_URL?.trim();
-  const isLocalhost = ['localhost', '127.0.0.1', '::1'].includes(
-    window.location.hostname,
-  );
+  const rawEnv = import.meta.env.VITE_API_BASE_URL?.trim();
+  const { origin, hostname } = window.location;
+  const isLocalhost = ['localhost', '127.0.0.1', '::1'].includes(hostname);
+  const fallbackBase = isLocalhost ? 'http://localhost:5174' : origin;
 
-  if (envUrl) {
-    const envIsLocal =
-      envUrl.includes('localhost') || envUrl.includes('127.0.0.1');
-
-    // Avoid baked-in localhost URLs when the site is running on a deployed domain.
-    if (!isLocalhost && envIsLocal) {
-      return window.location.origin;
-    }
-
-    return envUrl.replace(/\/+$/, '');
+  if (!rawEnv) {
+    return fallbackBase;
   }
 
-  return (isLocalhost ? 'http://localhost:5174' : window.location.origin).replace(
-    /\/+$/,
-    '',
-  );
+  const stripWww = (host: string) => host.replace(/^www\./, '');
+
+  try {
+    const envUrl = new URL(rawEnv, fallbackBase);
+    const hostsMatch =
+      !isLocalhost && stripWww(envUrl.hostname) === stripWww(hostname);
+
+    // If the env URL only differs by www/non-www, prefer the current origin to avoid redirects.
+    if (hostsMatch) {
+      return origin;
+    }
+
+    return envUrl.toString().replace(/\/+$/, '');
+  } catch (error) {
+    console.warn('Invalid VITE_API_BASE_URL; using current origin.', error);
+    return fallbackBase;
+  }
 })();
+
+const apiUrl = (path: string) => new URL(path, `${API_BASE_URL}/`).toString();
 
 const Contact: React.FC = () => {
   const [titleRef, isTitleVisible] = useScrollAnimation(0.2);
@@ -60,7 +67,7 @@ const Contact: React.FC = () => {
     setFormFeedback('Sending your message...');
 
     try {
-      const response = await fetch(`${API_BASE_URL}/api/messages`, {
+      const response = await fetch(apiUrl('/api/messages'), {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify(formData),
