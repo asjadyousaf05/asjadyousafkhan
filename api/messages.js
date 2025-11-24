@@ -97,8 +97,20 @@ async function getCollection() {
         strict: true,
         deprecationErrors: true,
       },
+      connectTimeoutMS: 8000,
+      serverSelectionTimeoutMS: 8000,
     });
-    await cachedClient.connect();
+    try {
+      await cachedClient.connect();
+    } catch (connectErr) {
+      const err = new Error(
+        `Mongo connection failed: ${connectErr.message || 'unknown error'}`,
+      );
+      err.code = connectErr.code || connectErr.name || 'MONGO_CONNECT_FAILED';
+      cachedClient = undefined;
+      cachedCollection = undefined;
+      throw err;
+    }
   }
 
   const db = cachedClient.db(dbName);
