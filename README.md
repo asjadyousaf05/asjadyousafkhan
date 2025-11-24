@@ -20,11 +20,10 @@ EMAIL_TO=your@gmail.com
 3) Run API: `npm run server` (http://localhost:5174). Check `GET /api/health`.
 4) Run frontend: `npm run dev` (http://localhost:5173). Submit the form; it should store to Mongo and send email.
 
-## Deploy the API (Render example)
-1) Create a Render Web Service from this repo.
-2) Build command: `npm install`
-3) Start command: `npm run server`
-4) Environment variables (production):
+## Deploy the API (Vercel serverless)
+This repo now includes `api/messages.js` and `api/health.js` for Vercel serverless functions.
+
+Env vars (Vercel → Project → Settings → Environment Variables):
 ```
 MONGODB_URI=...
 MONGODB_DB_NAME=portfolio
@@ -35,14 +34,13 @@ EMAIL_PASS=<gmail app password>
 EMAIL_FROM=asjadyousafkhan07@gmail.com
 EMAIL_TO=asjadyousafkhan07@gmail.com
 ```
-5) Deploy and note the API URL (e.g., `https://your-api.onrender.com`). Verify `GET /api/health`.
+
+API endpoints will be available at your site domain (e.g., https://asjadyousaf.online/api/messages and /api/health).
 
 ## Deploy the frontend (Vercel)
-1) In Vercel project settings → Environment Variables (Production):
-   - `VITE_API_BASE_URL=https://your-api.onrender.com`
-2) Build command: `npm run build`
-3) Output: `dist`
-4) Redeploy. The live site will call your API URL.
+- Build command: `npm run build`
+- Output: `dist`
+- You can leave `VITE_API_BASE_URL` unset in production; the client falls back to the current origin (`/api/...`). For local dev, keep `VITE_API_BASE_URL=http://localhost:5174` in `.env`.
 
 ## Custom domain (Vercel)
 - Add `asjadyousaf.online` and `www.asjadyousaf.online` in Vercel Domains.
