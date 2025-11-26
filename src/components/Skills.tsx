@@ -1,11 +1,43 @@
-import React from 'react';
+import React, { useEffect, useState } from 'react';
 import { Code, Brain, Wrench } from 'lucide-react';
 import { useScrollAnimation, useStaggeredAnimation } from '../hooks/useScrollAnimation';
+
+function useCountUp(target: number, isActive: boolean, duration = 1200) {
+  const [value, setValue] = useState(0);
+
+  useEffect(() => {
+    if (!isActive) return;
+
+    let frame: number;
+    const start = performance.now();
+
+    const tick = (now: number) => {
+      const elapsed = now - start;
+      const progress = Math.min(elapsed / duration, 1);
+      setValue(target * progress);
+      if (progress < 1) {
+        frame = requestAnimationFrame(tick);
+      }
+    };
+
+    frame = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(frame);
+  }, [target, isActive, duration]);
+
+  return value;
+}
 
 const Skills: React.FC = () => {
   const [titleRef, isTitleVisible] = useScrollAnimation(0.2);
   const [categoriesRef, visibleCategories] = useStaggeredAnimation(3, 200);
   const [statsRef, isStatsVisible] = useScrollAnimation(0.3);
+
+  const stats = [
+    { label: 'Projects Completed', value: 15, color: 'text-blue-600', suffix: '+' },
+    { label: 'ML Models Built', value: 8, color: 'text-purple-600', suffix: '+' },
+    { label: 'CGPA', value: 3.2, color: 'text-green-600' },
+    { label: 'Years Learning', value: 4, color: 'text-orange-600', suffix: '+' },
+  ];
 
   const skillCategories = [
     {
@@ -104,22 +136,20 @@ const Skills: React.FC = () => {
           ref={statsRef}
           className={`mt-16 grid grid-cols-2 md:grid-cols-4 gap-8 transition-all duration-1000 delay-500 ${isStatsVisible ? 'opacity-100 translate-y-0' : 'opacity-0 translate-y-8'}`}
         >
-          <div className="text-center">
-            <div className="text-3xl font-bold text-blue-600 mb-2">15+</div>
-            <div className="text-gray-600 dark:text-gray-300">Projects Completed</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-purple-600 mb-2">8+</div>
-            <div className="text-gray-600 dark:text-gray-300">ML Models Built</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-green-600 mb-2">3.2</div>
-            <div className="text-gray-600 dark:text-gray-300">CGPA</div>
-          </div>
-          <div className="text-center">
-            <div className="text-3xl font-bold text-orange-600 mb-2">4+</div>
-            <div className="text-gray-600 dark:text-gray-300">Years Learning</div>
-          </div>
+          {stats.map((stat, idx) => {
+            const count = useCountUp(stat.value, isStatsVisible, 1200 + idx * 150);
+            const isDecimal = stat.value % 1 !== 0;
+            const display = isDecimal ? count.toFixed(1) : Math.round(count).toString();
+            return (
+              <div key={stat.label} className="text-center">
+                <div className={`text-3xl font-bold mb-2 ${stat.color}`}>
+                  {display}
+                  {stat.suffix || ''}
+                </div>
+                <div className="text-gray-600 dark:text-gray-300">{stat.label}</div>
+              </div>
+            );
+          })}
         </div>
       </div>
     </section>
