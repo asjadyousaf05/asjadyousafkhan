@@ -1,0 +1,47 @@
+import dotenv from 'dotenv';
+import { Resend } from 'resend';
+
+// Ensure environment variables are loaded for local/dev usage.
+dotenv.config();
+
+const resendApiKey = process.env.RESEND_API_KEY;
+const resend = resendApiKey ? new Resend(resendApiKey) : null;
+const defaultFrom = process.env.RESEND_FROM || 'Portfolio Contact <onboarding@resend.dev>';
+const defaultTo = process.env.RESEND_TO || 'asjadyousafkhan07@gmail.com';
+
+export async function sendEmail(name, email, message) {
+  if (!resend) {
+    console.error('Missing RESEND_API_KEY; email not sent.');
+    return { success: false, error: 'RESEND_API_KEY not configured' };
+  }
+
+  try {
+    const { data, error } = await resend.emails.send({
+      from: defaultFrom,
+      to: defaultTo,
+      replyTo: `${name} <${email}>`,
+      subject: 'New Portfolio Message',
+      html: `
+        <h2>New Message Received</h2>
+        <p><b>Name:</b> ${name}</p>
+        <p><b>Email:</b> ${email}</p>
+        <p><b>Message:</b><br>${message}</p>
+      `,
+      text: `New Message Received
+Name: ${name}
+Email: ${email}
+Message:
+${message}`,
+    });
+
+    if (error) {
+      console.error('Email sending error:', error);
+      return { success: false, error };
+    }
+
+    return { success: true, id: data?.id };
+  } catch (error) {
+    console.error('Email sending error:', error);
+    return { success: false, error };
+  }
+}

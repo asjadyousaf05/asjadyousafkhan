@@ -1,10 +1,11 @@
+import dotenv from 'dotenv';
+dotenv.config(); // load env before importing helpers
 import { MongoClient, ServerApiVersion } from 'mongodb';
-import nodemailer from 'nodemailer';
+import { sendEmail } from '../utils/email.js';
 
 // Cache Mongo client across invocations to avoid reconnecting.
 let cachedClient;
 let cachedCollection;
-let cachedMailer;
 let cachedDbName;
 let cachedCollectionName;
 
@@ -121,64 +122,6 @@ async function getCollection() {
   return cachedCollection;
 }
 
-async function getMailer() {
-  if (cachedMailer) return cachedMailer;
-
-  const emailUser = process.env.EMAIL_USER;
-  const emailPass = process.env.EMAIL_PASS;
-  const emailTo = process.env.EMAIL_TO;
-
-  if (!emailUser || !emailPass || !emailTo) {
-    return null;
-  }
-
-  cachedMailer = nodemailer.createTransport({
-    service: 'gmail',
-    auth: {
-      user: emailUser,
-      pass: emailPass,
-    },
-  });
-
-  try {
-    await cachedMailer.verify();
-  } catch (error) {
-    console.error('Email transport verification failed:', error.message);
-  }
-
-  return cachedMailer;
-}
-
-async function sendEmailNotification(entry) {
-  const mailer = await getMailer();
-  if (!mailer) return;
-
-  const emailFrom = process.env.EMAIL_FROM || process.env.EMAIL_USER;
-  const emailTo = process.env.EMAIL_TO;
-
-  const subject = `New portfolio message from ${entry.name}`;
-  const text = `You received a new message from your portfolio site.
-
-Name: ${entry.name}
-Email: ${entry.email}
-Sent: ${entry.createdAt.toISOString()}
-
-Message:
-${entry.message}`;
-
-  try {
-    await mailer.sendMail({
-      from: `"Portfolio Contact" <${emailFrom}>`,
-      to: emailTo,
-      replyTo: `${entry.name} <${entry.email}>`,
-      subject,
-      text,
-    });
-  } catch (error) {
-    console.error('Error sending notification email:', error.message);
-  }
-}
-
 export default async function handler(req, res) {
   setCors(req, res);
 
@@ -222,12 +165,17 @@ export default async function handler(req, res) {
     };
 
     const result = await collection.insertOne(entry);
-    sendEmailNotification(entry).catch(() => {});
+    const emailResult = await sendEmail(entry.name, entry.email, entry.message);
+    if (!emailResult.success) {
+      console.error('Resend email failed:', emailResult.error);
+    }
 
     return res.status(201).json({
       message: 'Message stored successfully.',
       id: result.insertedId,
       createdAt: entry.createdAt,
+      emailSent: emailResult.success,
+      emailError: emailResult.success ? undefined : String(emailResult.error),
     });
   } catch (error) {
     const errorCode = error?.code || error?.name || 'UNKNOWN_ERROR';

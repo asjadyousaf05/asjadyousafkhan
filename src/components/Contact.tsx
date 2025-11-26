@@ -73,13 +73,19 @@ const Contact: React.FC = () => {
         body: JSON.stringify(formData),
       });
       const data = await response.json();
+      const emailDelivered = data?.emailSent !== false;
+      const emailError = data?.emailError;
 
       if (!response.ok) {
         throw new Error(data?.error || 'Failed to send your message.');
       }
 
-      setFormStatus('success');
-      setFormFeedback('Thanks for reaching out! I will get back to you soon.');
+      setFormStatus(emailDelivered ? 'success' : 'error');
+      setFormFeedback(
+        emailDelivered
+          ? 'Thanks for reaching out! I will get back to you soon.'
+          : `Your message was saved, but the notification email failed. Please retry later. ${emailError ? `(${emailError})` : ''}`,
+      );
       setFormData({ name: '', email: '', message: '' });
     } catch (error) {
       setFormStatus('error');

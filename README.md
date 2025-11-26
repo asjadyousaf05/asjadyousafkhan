@@ -1,6 +1,6 @@
 # Portfolio (Vite + React + Express API)
 
-This project has a React frontend (Vite) and an Express API that stores messages in MongoDB and emails you via Gmail.
+This project has a React frontend (Vite) and an Express API that stores messages in MongoDB and emails you via Resend.
 
 ## Local setup
 1) Install deps: `npm install`
@@ -12,10 +12,7 @@ MONGODB_COLLECTION=incomming
 PORT=5174
 ALLOWED_ORIGINS=http://localhost:5173
 VITE_API_BASE_URL=http://localhost:5174
-EMAIL_USER=your@gmail.com
-EMAIL_PASS=<16-char gmail app password, no spaces>
-EMAIL_FROM=your@gmail.com
-EMAIL_TO=your@gmail.com
+RESEND_API_KEY=your_resend_api_key
 ```
 3) Run API: `npm run server` (http://localhost:5174). Check `GET /api/health`.
 4) Run frontend: `npm run dev` (http://localhost:5173). Submit the form; it should store to Mongo and send email.
@@ -29,10 +26,7 @@ MONGODB_URI=...
 MONGODB_DB_NAME=portfolio
 MONGODB_COLLECTION=incomming
 ALLOWED_ORIGINS=https://asjadyousaf.online,https://www.asjadyousaf.online
-EMAIL_USER=asjadyousafkhan07@gmail.com
-EMAIL_PASS=<gmail app password>
-EMAIL_FROM=asjadyousafkhan07@gmail.com
-EMAIL_TO=asjadyousafkhan07@gmail.com
+RESEND_API_KEY=your_resend_api_key
 ```
 
 API endpoints will be available at your site domain (e.g., https://asjadyousaf.online/api/messages and /api/health).
@@ -49,5 +43,5 @@ API endpoints will be available at your site domain (e.g., https://asjadyousaf.o
 ## Verify in production
 1) Open `https://www.asjadyousaf.online`
 2) Submit the form.
-3) Expect 201 response, Mongo insert, and an email to `EMAIL_TO`.
-4) If email fails, check API logs; nodemailer logs SMTP errors and transport verification at startup.
+3) Expect 201 response, Mongo insert, and an email via Resend to your configured address.
+4) If email fails, check API logs; Resend errors will be logged to stdout.

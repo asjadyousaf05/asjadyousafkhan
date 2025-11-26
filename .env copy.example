@@ -10,8 +10,8 @@ VITE_API_BASE_URL=http://localhost:5174
 # (recommended so www/non-www domains avoid redirects), or override with your API host
 # e.g. https://www.asjadyousaf.online
 
-# Email notifications (optional, uses Gmail + app password)
-EMAIL_USER=yourgmail@gmail.com
-EMAIL_PASS=your_app_password
-EMAIL_FROM=yourgmail@gmail.com
-EMAIL_TO=destination@gmail.com
+# Email notifications via Resend
+RESEND_API_KEY=your_resend_api_key
+# Optional overrides (defaults: onboarding@resend.dev sender and your Gmail receiver)
+# RESEND_FROM="Portfolio Contact <onboarding@resend.dev>"
+# RESEND_TO=you@example.com
