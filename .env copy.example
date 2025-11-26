@@ -12,6 +12,5 @@ VITE_API_BASE_URL=http://localhost:5174
 
 # Email notifications via Resend
 RESEND_API_KEY=your_resend_api_key
-# Optional overrides (defaults: onboarding@resend.dev sender and your Gmail receiver)
-# RESEND_FROM="Portfolio Contact <onboarding@resend.dev>"
-# RESEND_TO=you@example.com
+RESEND_FROM="Portfolio Contact <onboarding@resend.dev>"
+RESEND_TO=asjadyousafkhan07@gmail.com
