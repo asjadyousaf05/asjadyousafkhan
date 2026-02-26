@@ -1,0 +1,7 @@
+User-agent: *
+Allow: /
+Disallow: /api/
+
+Host: asjadyousaf.online
+
+Sitemap: https://asjadyousaf.online/sitemap.xml
