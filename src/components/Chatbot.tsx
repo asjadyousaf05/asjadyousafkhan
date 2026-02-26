@@ -4,7 +4,6 @@ import {
   Check,
   Copy,
   Loader2,
-  MessageCircle,
   Minimize2,
   SendHorizonal,
   Sparkles,
@@ -664,7 +663,7 @@ const Chatbot: React.FC = () => {
           className="chatbot-launcher"
           aria-label={isOpen ? 'Close chatbot' : 'Open chatbot'}
         >
-          {isOpen ? <X className="h-6 w-6" /> : <MessageCircle className="h-6 w-6" />}
+          {isOpen ? <X className="h-6 w-6" /> : <Bot className="h-6 w-6" />}
           {unreadCount > 0 && !isOpen && (
             <span className="chatbot-unread">{unreadCount > 9 ? '9+' : unreadCount}</span>
           )}
