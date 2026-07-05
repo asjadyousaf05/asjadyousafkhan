@@ -8,8 +8,13 @@ import Contact from './components/Contact';
 import Footer from './components/Footer';
 import SEO from './components/SEO';
 import Chatbot from './components/Chatbot';
+import ProjectsPage from './components/ProjectsPage';
+import ProjectCaseStudy from './components/ProjectCaseStudy';
 
 function App() {
+  const [pathname, setPathname] = useState(() =>
+    typeof window === 'undefined' ? '/' : window.location.pathname,
+  );
   const [darkMode, setDarkMode] = useState<boolean>(() => {
     if (typeof window === 'undefined') return true;
     try {
@@ -25,9 +30,35 @@ function App() {
     document.documentElement.classList.toggle('dark', darkMode);
   }, [darkMode]);
 
+  useEffect(() => {
+    const handleRouteChange = () => setPathname(window.location.pathname);
+    window.addEventListener('popstate', handleRouteChange);
+    return () => window.removeEventListener('popstate', handleRouteChange);
+  }, []);
+
+  const renderPage = () => {
+    if (pathname === '/projects') {
+      return <ProjectsPage />;
+    }
+
+    if (pathname.startsWith('/projects/')) {
+      return <ProjectCaseStudy slug={decodeURIComponent(pathname.replace('/projects/', ''))} />;
+    }
+
+    return (
+      <main className="pt-16 sm:pt-20">
+        <Hero />
+        <Projects />
+        <Skills />
+        <About />
+        <Contact />
+      </main>
+    );
+  };
+
   return (
     <div className={darkMode ? 'dark' : ''}>
-      <SEO />
+      <SEO pathname={pathname} />
       <div className="relative min-h-screen overflow-x-hidden">
         <div aria-hidden className="pointer-events-none fixed inset-0 -z-10">
           <div className="absolute -left-32 top-24 h-72 w-72 rounded-full bg-blue-500/20 blur-3xl animate-drift" />
@@ -37,13 +68,7 @@ function App() {
 
         <Header darkMode={darkMode} toggleDarkMode={() => setDarkMode((prev) => !prev)} />
 
-        <main className="pt-16 sm:pt-20">
-          <Hero />
-          <Projects />
-          <Skills />
-          <About />
-          <Contact />
-        </main>
+        {renderPage()}
 
         <Footer />
         <Chatbot />

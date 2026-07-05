@@ -5,13 +5,39 @@
 >
   <url>
     <loc>https://asjadyousaf.online/</loc>
-    <lastmod>2026-02-25</lastmod>
+    <lastmod>2026-07-05</lastmod>
     <changefreq>weekly</changefreq>
     <priority>1.0</priority>
     <image:image>
       <image:loc>https://asjadyousaf.online/og-image.jpg</image:loc>
       <image:title>Asjad Yousaf Khan Portfolio</image:title>
-      <image:caption>AI Engineer and MERN Web Developer</image:caption>
+      <image:caption>Junior AI/ML Engineer Portfolio</image:caption>
     </image:image>
   </url>
+  <url>
+    <loc>https://asjadyousaf.online/projects</loc>
+    <lastmod>2026-07-05</lastmod>
+    <changefreq>weekly</changefreq>
+    <priority>0.9</priority>
+  </url>
+  <url><loc>https://asjadyousaf.online/projects/ai-vision-assistant-app</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/v-prep-ai-interview-platform</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/cs-qau-chatbot</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/pixify-image-restoration</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/deepfake-detection-faceforensics</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/disease-predictor</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.8</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/opinion-miner</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/ai-recipe-bot</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/ai-plagiarism-checker</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/machine-learning-practice-portfolio</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/movie-recommender-system</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/disaster-tweets-detector</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/ebn-al-arab</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/albark-ls</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/porta-cabins-online</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/rapid-kitchen</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.75</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/sparekart-live</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/dine3d</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/kitchub-store</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
+  <url><loc>https://asjadyousaf.online/projects/tamkeenzone</loc><lastmod>2026-07-05</lastmod><changefreq>monthly</changefreq><priority>0.7</priority></url>
 </urlset>

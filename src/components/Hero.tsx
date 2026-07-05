@@ -10,12 +10,13 @@ import {
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
 import MyCV from './asjad_yousaf_khan.pdf';
 import profileImage from '../profile.jpg';
+import { navigateTo } from '../utils/navigation';
 
 const rotatingHighlights = [
-  'AI Software Products',
-  'Business Automation Systems',
-  'Scalable MERN Applications',
-  'Intelligent Web Platforms',
+  'Computer Vision Apps',
+  'RAG Chatbots',
+  'ML Prediction Systems',
+  'Full-Stack AI Products',
 ];
 
 const Hero: React.FC = () => {
@@ -82,19 +83,20 @@ const Hero: React.FC = () => {
           >
             <span className="chip hero-tagline-glow animate-pulse-glow">
               <Sparkles className="mr-2 h-3.5 w-3.5" />
-              AI Software + Business Web Systems
+              Junior AI/ML Engineer
             </span>
 
             <h1 className="mt-5 text-4xl font-semibold leading-tight text-slate-900 dark:text-slate-100 sm:text-5xl lg:text-6xl">
-              Delivering modern products as an
+              Building practical AI systems as a
               <span className="block bg-gradient-to-r from-blue-600 via-cyan-500 to-amber-500 bg-clip-text text-transparent">
-                AI Engineer + MERN Web Developer
+                Junior AI/ML Engineer
               </span>
             </h1>
 
             <p className="mt-5 max-w-2xl text-base leading-relaxed text-slate-600 dark:text-slate-300 sm:text-lg">
-              I design and ship responsive business websites, full-stack MERN applications, and AI
-              software for automation, prediction, and intelligent business workflows.
+              Computer Science graduate from Quaid-i-Azam University with hands-on work in machine
+              learning, deep learning, computer vision, NLP, RAG, LangChain, vector databases, and
+              full-stack AI applications.
             </p>
 
             <div className="mt-5 flex items-center gap-2 text-sm font-semibold text-slate-600 dark:text-slate-300">
@@ -105,10 +107,10 @@ const Hero: React.FC = () => {
             </div>
 
             <div className="mt-8 flex flex-wrap items-center gap-3">
-              <a href="#projects" className="btn-primary hero-cta-pulse">
+              <button type="button" onClick={() => navigateTo('/projects')} className="btn-primary hero-cta-pulse">
                 View Projects
                 <ArrowDownRight className="ml-2 h-4 w-4" />
-              </a>
+              </button>
               <a href={MyCV} download className="btn-secondary">
                 <Download className="mr-2 h-4 w-4" />
                 Download CV
@@ -142,10 +144,10 @@ const Hero: React.FC = () => {
 
             <div className="mt-8 flex flex-wrap gap-3 text-sm text-slate-600 dark:text-slate-300">
               {[
-                'Business Web Systems',
-                'MERN Architecture',
-                'AI Software Engineering',
-                'Performance Focus',
+                'Machine Learning',
+                'Computer Vision',
+                'RAG + LangChain',
+                'Full-Stack AI Apps',
               ].map((item) => (
                 <span key={item} className="chip normal-case tracking-normal">
                   {item}
@@ -153,22 +155,24 @@ const Hero: React.FC = () => {
               ))}
             </div>
 
-            <div className="mt-6 grid gap-3 sm:grid-cols-2">
-              <div className="glass-panel soft-ring rounded-2xl p-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-300">
-                  Web Development Services
-                </p>
-                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-                  Professional business websites, dashboards, and scalable MERN web apps.
-                </p>
-              </div>
-              <div className="glass-panel soft-ring rounded-2xl p-4">
-                <p className="text-xs font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-300">
-                  AI Software Solutions
-                </p>
-                <p className="mt-2 text-sm text-slate-600 dark:text-slate-300">
-                  Intelligent systems and model-powered software integrated into real products.
-                </p>
+            <div className="mt-7 border-y border-slate-200/80 py-4 dark:border-slate-700/70">
+              <div className="grid gap-4 text-sm sm:grid-cols-2">
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-300">
+                    AI/ML Engineering
+                  </p>
+                  <p className="mt-1 leading-relaxed text-slate-600 dark:text-slate-300">
+                    Model training, evaluation, prediction workflows, embeddings, and semantic search.
+                  </p>
+                </div>
+                <div>
+                  <p className="text-xs font-semibold uppercase tracking-wide text-blue-600 dark:text-blue-300">
+                    Vision + NLP Products
+                  </p>
+                  <p className="mt-1 leading-relaxed text-slate-600 dark:text-slate-300">
+                    Object detection, face detection, image restoration, chatbots, and document Q&A.
+                  </p>
+                </div>
               </div>
             </div>
           </div>
@@ -201,28 +205,28 @@ const Hero: React.FC = () => {
                   />
 
                   <div className="animate-float absolute -left-3 top-6 rounded-xl border border-white/60 bg-white/85 px-3 py-2 text-xs font-semibold text-slate-700 shadow-lg shadow-slate-900/10 dark:border-slate-600/70 dark:bg-slate-900/85 dark:text-slate-200">
-                    Production-Focused Delivery
+                    ML + Deep Learning
                   </div>
 
                   <div className="animate-float absolute -right-3 bottom-16 rounded-xl border border-white/60 bg-white/85 px-3 py-2 text-xs font-semibold text-slate-700 shadow-lg shadow-slate-900/10 dark:border-slate-600/70 dark:bg-slate-900/85 dark:text-slate-200">
-                    Web + AI Solutions
+                    RAG + Computer Vision
                   </div>
                 </div>
               </div>
             </div>
 
-            <div className="mt-4 grid grid-cols-3 gap-3 text-center">
-              <div className="glass-panel soft-ring rounded-2xl px-3 py-4">
-                <p className="font-display text-2xl font-semibold text-blue-600 dark:text-blue-300">15+</p>
+            <div className="mt-5 grid grid-cols-3 divide-x divide-slate-200/80 border-y border-slate-200/80 py-4 text-center dark:divide-slate-700/70 dark:border-slate-700/70">
+              <div className="px-3">
+                <p className="font-display text-2xl font-semibold text-blue-600 dark:text-blue-300">20</p>
                 <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">Projects</p>
               </div>
-              <div className="glass-panel soft-ring rounded-2xl px-3 py-4">
-                <p className="font-display text-2xl font-semibold text-amber-600 dark:text-amber-300">MERN</p>
-                <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">Core Stack</p>
+              <div className="px-3">
+                <p className="font-display text-2xl font-semibold text-amber-600 dark:text-amber-300">QAU</p>
+                <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">CS Graduate</p>
               </div>
-              <div className="glass-panel soft-ring rounded-2xl px-3 py-4">
-                <p className="font-display text-2xl font-semibold text-cyan-600 dark:text-cyan-300">AI</p>
-                <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">Intelligence Driven</p>
+              <div className="px-3">
+                <p className="font-display text-2xl font-semibold text-cyan-600 dark:text-cyan-300">RAG</p>
+                <p className="mt-1 text-xs text-slate-600 dark:text-slate-300">AI Apps</p>
               </div>
             </div>
           </div>
@@ -234,10 +238,10 @@ const Hero: React.FC = () => {
           isHeroVisible ? 'translate-y-0 opacity-100' : 'translate-y-8 opacity-0'
         }`}
       >
-        <div className="glass-panel soft-ring rounded-3xl p-5 sm:p-6">
-          <p className="text-center text-sm font-medium leading-relaxed text-slate-600 dark:text-slate-300 sm:text-base">
+        <div className="mx-auto max-w-4xl border-t border-slate-200/80 pt-6 text-center dark:border-slate-700/70">
+          <p className="text-sm font-medium leading-relaxed text-slate-600 dark:text-slate-300 sm:text-base">
             I combine enterprise-grade web engineering with AI software development so businesses
-            can launch faster, automate smarter, and scale confidently.
+            and users can get practical tools for prediction, search, vision, and automation.
           </p>
         </div>
       </div>

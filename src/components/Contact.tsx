@@ -105,7 +105,7 @@ const Contact: React.FC = () => {
     {
       icon: <MapPin className="h-5 w-5" />,
       label: 'Location',
-      value: 'Pakistan',
+      value: 'Lahore, Pakistan',
       href: '#',
     },
   ];
@@ -123,27 +123,28 @@ const Contact: React.FC = () => {
             Let&apos;s Build <span className="text-blue-600 dark:text-blue-300">Something Great</span>
           </h2>
           <p className="section-subtitle">
-            Open for business websites, web applications, and AI software projects.
+            Open for AI/ML roles, internship opportunities, AI software projects, and full-stack
+            application work.
           </p>
         </div>
 
-        <div className="mt-10 grid gap-6 lg:grid-cols-[0.95fr_1.05fr]">
+        <div className="mt-10 grid gap-10 border-t border-slate-200/80 pt-10 dark:border-slate-700/70 lg:grid-cols-[0.9fr_1.1fr]">
           <div
             ref={leftRef}
-            className={`space-y-4 transition-all duration-1000 ${
+            className={`transition-all duration-1000 ${
               isLeftVisible ? 'translate-x-0 opacity-100' : '-translate-x-8 opacity-0'
             }`}
           >
-            <article className="glass-panel soft-ring rounded-3xl p-6">
+            <article>
               <h3 className="font-display text-2xl font-semibold text-slate-900 dark:text-slate-100">
                 Contact Details
               </h3>
-              <div className="mt-5 space-y-3">
+              <div className="mt-5 divide-y divide-slate-200/80 dark:divide-slate-700/70">
                 {contactInfo.map((info) => (
                   <a
                     key={info.label}
                     href={info.href}
-                    className="flex items-center gap-3 rounded-2xl border border-slate-200/80 bg-white/80 px-4 py-3 transition duration-300 hover:-translate-y-0.5 hover:border-blue-300 dark:border-slate-700/70 dark:bg-slate-900/70 dark:hover:border-blue-500"
+                    className="flex items-center gap-3 py-4 transition duration-300 hover:translate-x-1"
                   >
                     <span className="rounded-xl bg-blue-600/10 p-2 text-blue-600 dark:bg-blue-500/15 dark:text-blue-300">
                       {info.icon}
@@ -161,7 +162,7 @@ const Contact: React.FC = () => {
               </div>
             </article>
 
-            <article className="glass-panel soft-ring rounded-3xl p-6">
+            <article className="mt-8 border-t border-slate-200/80 pt-6 dark:border-slate-700/70">
               <h3 className="font-display text-xl font-semibold text-slate-900 dark:text-slate-100">
                 Social Profiles
               </h3>

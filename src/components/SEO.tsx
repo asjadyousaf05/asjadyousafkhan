@@ -1,5 +1,6 @@
 /* eslint-disable react-refresh/only-export-components */
 import { useEffect } from 'react';
+import { getProjectBySlug, projects } from '../data/projects';
 
 const DEFAULT_SITE_URL = 'https://asjadyousaf.online';
 
@@ -9,14 +10,30 @@ const normalizePathname = (pathname: string) => {
   return pathname.replace(/\/+$/, '');
 };
 
-const SEO: React.FC = () => {
+interface SEOProps {
+  pathname: string;
+}
+
+const SEO: React.FC<SEOProps> = ({ pathname }) => {
   useEffect(() => {
     const siteName = 'Asjad Yousaf Khan';
-    const siteTitle = 'Asjad Yousaf Khan | AI Engineer & MERN Web Developer';
-    const siteDescription =
-      'AI Engineer and MERN Web Developer building AI software, business systems, automation workflows, and scalable full-stack web applications.';
+    const projectSlug = pathname.startsWith('/projects/')
+      ? decodeURIComponent(pathname.replace('/projects/', ''))
+      : '';
+    const activeProject = projectSlug ? getProjectBySlug(projectSlug) : undefined;
+    const siteTitle = activeProject
+      ? `${activeProject.title} Case Study | Asjad Yousaf Khan`
+      : pathname === '/projects'
+        ? 'Projects | Asjad Yousaf Khan'
+        : 'Asjad Yousaf Khan | Junior AI/ML Engineer';
+    const siteDescription = activeProject
+      ? activeProject.summary
+      : pathname === '/projects'
+        ? 'Complete portfolio of AI/ML, computer vision, NLP, RAG, generative AI, and web development projects by Asjad Yousaf Khan.'
+        : 'Junior AI/ML Engineer and Computer Science graduate building machine learning, computer vision, NLP, RAG, LangChain, and full-stack AI applications.';
     const siteKeywords = [
       'AI Engineer',
+      'Junior AI ML Engineer',
       'MERN Developer',
       'MERN Stack Developer',
       'AI Software Developer',
@@ -24,6 +41,10 @@ const SEO: React.FC = () => {
       'Web Development Services',
       'Automation Software',
       'Machine Learning Engineer',
+      'Computer Vision',
+      'RAG',
+      'LangChain',
+      'Vector Databases',
       'NLP Solutions',
       'Full Stack Developer',
       'React Developer',
@@ -33,17 +54,12 @@ const SEO: React.FC = () => {
       'Asjad Yousaf Khan',
     ].join(', ');
     const siteUrl = normalizeBaseUrl(import.meta.env.VITE_SITE_URL?.trim() || DEFAULT_SITE_URL);
-    const canonicalUrl = `${siteUrl}${normalizePathname(window.location.pathname)}`;
+    const canonicalUrl = `${siteUrl}${normalizePathname(pathname)}`;
     const ogImage = `${siteUrl}/og-image.jpg`;
     const sitemapUrl = `${siteUrl}/sitemap.xml`;
     const whatsappUrl =
       'https://wa.me/923144704840?text=Hi%20Asjad%2C%20I%20want%20to%20discuss%20a%20project.';
-    const featuredProjects = [
-      { name: 'Ebn Al Arab', url: 'https://ebnalarab.com/' },
-      { name: 'Albark LS', url: 'https://albarkls.com/' },
-      { name: 'Porta Cabins Online', url: 'https://portacabins.online/' },
-      { name: 'Rapid Kitchen', url: 'https://rapidkitchen.com/' },
-    ];
+    const featuredProjects = projects.slice(0, 8);
 
     const upsertMeta = (attribute: 'name' | 'property', value: string, content: string) => {
       const selector = `meta[${attribute}="${value}"]`;
@@ -110,7 +126,7 @@ const SEO: React.FC = () => {
     upsertMeta('property', 'og:type', 'website');
     upsertMeta('property', 'og:url', canonicalUrl);
     upsertMeta('property', 'og:image', ogImage);
-    upsertMeta('property', 'og:image:alt', 'Asjad Yousaf Khan - AI Engineer and MERN Developer');
+    upsertMeta('property', 'og:image:alt', 'Asjad Yousaf Khan - Junior AI/ML Engineer');
     upsertMeta('property', 'og:image:type', 'image/jpeg');
     upsertMeta('property', 'og:image:width', '800');
     upsertMeta('property', 'og:image:height', '800');
@@ -121,7 +137,7 @@ const SEO: React.FC = () => {
     upsertMeta('name', 'twitter:title', siteTitle);
     upsertMeta('name', 'twitter:description', siteDescription);
     upsertMeta('name', 'twitter:image', ogImage);
-    upsertMeta('name', 'twitter:image:alt', 'Asjad Yousaf Khan - AI Engineer and MERN Developer');
+    upsertMeta('name', 'twitter:image:alt', 'Asjad Yousaf Khan - Junior AI/ML Engineer');
 
     upsertLink('canonical', canonicalUrl);
     upsertLink('sitemap', sitemapUrl);
@@ -137,9 +153,9 @@ const SEO: React.FC = () => {
           name: 'Asjad Yousaf Khan',
           url: `${siteUrl}/`,
           image: ogImage,
-          jobTitle: 'AI Engineer and MERN Web Developer',
+          jobTitle: 'Junior AI/ML Engineer',
           description:
-            'AI software engineer and MERN web developer building automation systems, business software, and scalable full-stack web applications.',
+            'Junior AI/ML Engineer and Computer Science graduate building machine learning, computer vision, NLP, RAG, LangChain, and full-stack AI applications.',
           email: 'mailto:asjadyousafkhan07@gmail.com',
           telephone: '+92-314-4704840',
           address: {
@@ -163,11 +179,13 @@ const SEO: React.FC = () => {
           ],
           knowsAbout: [
             'AI Software',
-            'MERN Stack',
-            'Business Systems Development',
             'Machine Learning',
             'Deep Learning',
+            'Computer Vision',
             'Natural Language Processing',
+            'Retrieval-Augmented Generation',
+            'LangChain',
+            'Vector Databases',
             'Web Application Development',
           ],
         },
@@ -178,14 +196,15 @@ const SEO: React.FC = () => {
           url: `${siteUrl}/`,
           provider: { '@id': `${siteUrl}/#person` },
           description:
-            'Professional AI software and MERN web development services for business websites, intelligent systems, and automation workflows.',
+            'Professional AI/ML software and web development services for machine learning systems, RAG chatbots, computer vision apps, and business websites.',
           areaServed: 'Worldwide',
           serviceType: [
             'AI Software Development',
-            'MERN Web Development',
-            'Business System Development',
-            'Automation Workflow Development',
-            'Backend API Architecture',
+            'Machine Learning Development',
+            'Computer Vision Development',
+            'RAG Chatbot Development',
+            'NLP Application Development',
+            'Full-Stack Web Development',
           ],
           knowsLanguage: ['English', 'Urdu'],
         },
@@ -217,8 +236,8 @@ const SEO: React.FC = () => {
             position: index + 1,
             item: {
               '@type': 'CreativeWork',
-              name: project.name,
-              url: project.url,
+              name: project.title,
+              url: `${siteUrl}/projects/${project.slug}`,
               creator: { '@id': `${siteUrl}/#person` },
             },
           })),
@@ -235,7 +254,7 @@ const SEO: React.FC = () => {
     }
 
     script.textContent = JSON.stringify(structuredData);
-  }, []);
+  }, [pathname]);
 
   return null;
 };

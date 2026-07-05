@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { Menu, X, Sun, Moon } from 'lucide-react';
+import { navigateTo, scrollToSection } from '../utils/navigation';
 
 interface HeaderProps {
   darkMode: boolean;
@@ -18,19 +19,20 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode }) => {
 
   const navItems = [
     { name: 'Home', href: '#hero' },
-    { name: 'Projects', href: '#projects' },
+    { name: 'Projects', href: '/projects' },
     { name: 'Skills', href: '#skills' },
     { name: 'About', href: '#about' },
     { name: 'Contact', href: '#contact' },
   ];
 
-  const scrollToSection = (href: string) => {
-    const element = document.querySelector(href);
-    if (!element) return;
+  const handleNavigation = (href: string) => {
+    if (href.startsWith('/')) {
+      navigateTo(href);
+      setIsOpen(false);
+      return;
+    }
 
-    const headerOffset = 82;
-    const top = element.getBoundingClientRect().top + window.scrollY - headerOffset;
-    window.scrollTo({ top, behavior: 'smooth' });
+    scrollToSection(href);
     setIsOpen(false);
   };
 
@@ -45,14 +47,14 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode }) => {
       <nav className="section-shell">
         <div className="flex h-16 items-center justify-between sm:h-[74px]">
           <button
-            onClick={() => scrollToSection('#hero')}
+            onClick={() => handleNavigation('#hero')}
             className="text-left transition duration-300 hover:opacity-85"
           >
             <span className="font-display block text-sm font-bold uppercase tracking-[0.2em] text-blue-600 dark:text-blue-300">
               Asjad Yousaf Khan
             </span>
             <span className="text-xs font-medium text-slate-600 dark:text-slate-300">
-              AI Engineer | MERN Web Developer
+              Junior AI/ML Engineer
             </span>
           </button>
 
@@ -60,7 +62,7 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode }) => {
             {navItems.map((item) => (
               <button
                 key={item.name}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => handleNavigation(item.href)}
                 className="rounded-xl px-3 py-2 text-sm font-semibold text-slate-700 transition duration-300 hover:-translate-y-0.5 hover:bg-slate-100 hover:text-blue-700 dark:text-slate-200 dark:hover:bg-slate-800/75 dark:hover:text-blue-300"
               >
                 {item.name}
@@ -103,7 +105,7 @@ const Header: React.FC<HeaderProps> = ({ darkMode, toggleDarkMode }) => {
             {navItems.map((item) => (
               <button
                 key={item.name}
-                onClick={() => scrollToSection(item.href)}
+                onClick={() => handleNavigation(item.href)}
                 className="block w-full rounded-lg px-3 py-2 text-left text-sm font-semibold text-slate-700 transition duration-300 hover:bg-slate-100 hover:text-blue-700 dark:text-slate-200 dark:hover:bg-slate-800 dark:hover:text-blue-300"
               >
                 {item.name}

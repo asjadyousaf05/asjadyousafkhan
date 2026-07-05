@@ -1,24 +1,26 @@
 import React from 'react';
 import { ArrowUpRight } from 'lucide-react';
 import { useScrollAnimation } from '../hooks/useScrollAnimation';
+import { navigateTo, scrollToSection } from '../utils/navigation';
 
 const Footer: React.FC = () => {
   const [footerRef, isFooterVisible] = useScrollAnimation(0.2);
 
   const navItems = [
     { label: 'Home', href: '#hero' },
-    { label: 'Projects', href: '#projects' },
+    { label: 'Projects', href: '/projects' },
     { label: 'Skills', href: '#skills' },
     { label: 'About', href: '#about' },
     { label: 'Contact', href: '#contact' },
   ];
 
-  const scrollTo = (href: string) => {
-    const element = document.querySelector(href);
-    if (!element) return;
+  const handleNavigation = (href: string) => {
+    if (href.startsWith('/')) {
+      navigateTo(href);
+      return;
+    }
 
-    const top = element.getBoundingClientRect().top + window.scrollY - 80;
-    window.scrollTo({ top, behavior: 'smooth' });
+    scrollToSection(href, 80);
   };
 
   return (
@@ -36,7 +38,7 @@ const Footer: React.FC = () => {
                 Asjad Yousaf Khan
               </p>
               <p className="mt-1 text-sm text-slate-600 dark:text-slate-300">
-                AI Engineer | MERN Web Developer
+                Junior AI/ML Engineer
               </p>
             </div>
 
@@ -53,7 +55,7 @@ const Footer: React.FC = () => {
             {navItems.map((item) => (
               <button
                 key={item.label}
-                onClick={() => scrollTo(item.href)}
+                onClick={() => handleNavigation(item.href)}
                 className="chip normal-case tracking-normal transition duration-300 hover:-translate-y-0.5 hover:text-blue-700 dark:hover:text-blue-300"
               >
                 {item.label}
