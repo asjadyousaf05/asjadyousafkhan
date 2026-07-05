@@ -16,12 +16,12 @@ function App() {
     typeof window === 'undefined' ? '/' : window.location.pathname,
   );
   const [darkMode, setDarkMode] = useState<boolean>(() => {
-    if (typeof window === 'undefined') return true;
+    if (typeof window === 'undefined') return false;
     try {
       const savedMode = window.localStorage.getItem('darkMode');
-      return savedMode === null ? true : JSON.parse(savedMode);
+      return savedMode === null ? false : JSON.parse(savedMode);
     } catch {
-      return true;
+      return false;
     }
   });
 

@@ -20,16 +20,17 @@
       (function () {
         try {
           var savedMode = localStorage.getItem('darkMode');
-          var darkMode = savedMode === null ? true : JSON.parse(savedMode);
+          var darkMode = savedMode === null ? false : JSON.parse(savedMode);
           document.documentElement.classList.toggle('dark', darkMode);
         } catch (error) {
-          document.documentElement.classList.add('dark');
+          document.documentElement.classList.remove('dark');
         }
       })();
     </script>
     <link rel="preconnect" href="https://www.googletagmanager.com" />
     <link rel="dns-prefetch" href="//www.googletagmanager.com" />
-    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+    <link rel="icon" type="image/png" href="/favicon.png" />
+    <link rel="apple-touch-icon" href="/favicon.png" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta
       name="description"
@@ -49,7 +50,7 @@
     />
     <meta name="author" content="Asjad Yousaf Khan" />
     <meta name="application-name" content="Asjad Yousaf Khan Portfolio" />
-    <meta name="theme-color" content="#020617" />
+    <meta name="theme-color" content="#f8fafc" />
     <meta name="format-detection" content="telephone=no" />
     <meta name="referrer" content="strict-origin-when-cross-origin" />
 
